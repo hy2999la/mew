@@ -3,7 +3,7 @@ import { Howl } from 'howler';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+export default function MusicList(props) {
   const [playing, setPlaying] = useState<boolean>(false);
   const [music, setSelectedMusic] = useState<string>('music.mp3');
   const [howl, setHowl] = useState<Howl>();
@@ -16,7 +16,6 @@ function App() {
       onplay: (id) => { console.log(id); },
       volume: 0.05,
     }));
-    setSelectedMusic('music.mp3');
   }, [music]);
 
   const playPauseMusic = () => {
@@ -48,5 +47,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
