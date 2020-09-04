@@ -2,8 +2,7 @@
   "name": "mew",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
-  "main": "main.ts",
+  "main": "main.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -13,8 +12,8 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "electron": "10.1.1",
-    "fs": "^0.0.1-security",
     "howler": "^2.2.0",
+    "node-id3": "^0.1.18",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
@@ -31,7 +30,6 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "3.6.1",
     "@typescript-eslint/parser": "3.0.0",
-    "eslint": "^7.8.1",
     "eslint-config-airbnb-typescript": "^9.0.0",
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-jsx-a11y": "6.3.1",

@@ -11,3 +11,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.music-control {
+  display: inline-block;
+  align-content: space-between;
+}
+
+.music-list {
+  box-sizing: border-box;
+  border-collapse: collapse;
+  line-height: 24px;
+  text-align: left;
+}
+
+.music-list td {
+  padding: 0.75rem;
+  border: 0;
+  border-bottom: 0.8px solid #bbb;
+  user-select: none;
+}
+
+.music-list th {
+  padding: 0.85rem;
+  border: 0;
+  border-bottom: 1.6px solid #bbb;
+}
+.music-list-row:hover {
+  background-image: linear-gradient(#bbb, #bbb);
+}
