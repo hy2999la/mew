@@ -13,10 +13,11 @@ export default function MusicList(props : any) {
   const [musicList, setMusicList] = useState<MusicData[]>();
 
   useEffect(() => {
-    ipcRenderer.send('music-list-async', 'hello');
+    ipcRenderer.send('music-list-async');
   }, []);
 
   ipcRenderer.on('music-list-reply-async', (_event: any, args: any) => {
+    console.log(args);
     setMusicList(args);
   });
 

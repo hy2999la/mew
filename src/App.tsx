@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Howl, Howler } from 'howler';
-import logo from './logo.svg';
+import path from 'path';
 import MusicList from './components/MusicList';
 import './App.css';
+
+const { ipcRenderer } = window.require('electron');
 
 function App() {
   const [playing, setPlaying] = useState<boolean>(false);
   const [currentlyLoading, setCurrentlyLoading] = useState<boolean>(false);
   const [howl, setHowl] = useState<Howl>();
+  const [folderPath, setFolderPath] = useState<string>('');
+  const filePath = 'C:/Users/anson/Desktop/Projects/mew';
 
   const stopMusic = () => {
-    setPlaying(false);
     // @ts-ignore: stop is already a global method but it is not updated in the @types/Howler module
     Howler.stop();
   };
@@ -18,10 +21,8 @@ function App() {
   const playPauseMusic = () => {
     if (howl) {
       if (playing) {
-        setPlaying(false);
         howl.pause();
       } else {
-        setPlaying(true);
         howl.play();
       }
     }
@@ -32,17 +33,26 @@ function App() {
       setCurrentlyLoading(true);
       stopMusic();
       howl?.unload();
+      console.log(fileName);
       setHowl(new Howl({
-        src: [`temp/${encodeURIComponent(fileName)}`],
+        src: fileName,
         onload: () => { console.log('loaded'); setCurrentlyLoading(false); },
-        onloaderror: (id, e) => { console.log(e); },
-        onplay: (id) => { console.log(`played ${id}`); },
-        onpause: (id) => { console.log(`paused ${id}`); },
-        onstop: (id) => { console.log(`ended ${id}`); },
+        onloaderror: (id, e) => { console.log(e); setCurrentlyLoading(false); },
+        onplay: (id) => { console.log(`played ${id}`); setPlaying(true); },
+        onpause: (id) => { console.log(`paused ${id}`); setPlaying(false); },
+        onstop: (id) => { console.log(`ended ${id}`); setPlaying(false); },
         autoplay: true,
         volume: 0.05,
       }));
       playPauseMusic();
+    }
+  };
+
+  const selectFolder = async () => {
+    const result = await ipcRenderer.invoke('select-folder');
+    console.log(result);
+    if (result) {
+      setFolderPath(result);
     }
   };
 
@@ -53,6 +63,10 @@ function App() {
         <div className="music-control">
           <button type="button" onClick={playPauseMusic}>{playing ? 'Pause' : 'Play'}</button>
           <button type="button" onClick={stopMusic}>Stop</button>
+        </div>
+        <div>
+          <button type="button" onClick={selectFolder}>Select Folder</button>
+          <p>{folderPath}</p>
         </div>
         <MusicList selectMusic={selectMusic} />
       </header>
