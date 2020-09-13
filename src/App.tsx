@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Howl, Howler } from 'howler';
-import path from 'path';
 import { StylesProvider } from '@material-ui/core/styles';
 
 import MusicList from './components/MusicList';
@@ -8,13 +7,13 @@ import './App.css';
 import MusicControl from './components/MusicControl';
 
 const { ipcRenderer } = window.require('electron');
+const url = window.require('url');
 
 function App() {
   const [playing, setPlaying] = useState<boolean>(false);
   const [currentlyLoading, setCurrentlyLoading] = useState<boolean>(false);
   const [howl, setHowl] = useState<Howl>();
   const [folderPath, setFolderPath] = useState<string>('');
-  const filePath = 'C:/Users/anson/Desktop/Projects/mew';
 
   const stopMusic = () => {
     // @ts-ignore: stop is already a global method but it is not updated in the @types/Howler module
@@ -38,7 +37,7 @@ function App() {
       howl?.unload();
       console.log(fileName);
       setHowl(new Howl({
-        src: fileName,
+        src: url.pathToFileURL(fileName).toString(),
         onload: () => { console.log('loaded'); setCurrentlyLoading(false); },
         onloaderror: (id, e) => { console.log(e); setCurrentlyLoading(false); },
         onplay: (id) => { console.log(`played ${id}`); setPlaying(true); },
@@ -66,8 +65,8 @@ function App() {
           <h1>Welcome to Mew!</h1>
           <div className="music-control">
             <MusicControl player={howl} />
-            <button type="button" onClick={playPauseMusic}>{playing ? 'Pause' : 'Play'}</button>
-            <button type="button" onClick={stopMusic}>Stop</button>
+            {/* <button type="button" onClick={playPauseMusic}>{playing ? 'Pause' : 'Play'}</button>
+            <button type="button" onClick={stopMusic}>Stop</button> */}
           </div>
           <div>
             <button type="button" onClick={selectFolder}>Select Folder</button>
