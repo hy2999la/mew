@@ -52,6 +52,7 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('music-list-async', async (event, arg) => {
   const filePath = 'C:/Users/anson/Desktop/Projects/mew/public/temp';
+  console.log('scanning files');
   glob(`${filePath}/**/*.mp3`, { nodir: true }, async (err, res) => {
     if (err) {
       console.log(err);

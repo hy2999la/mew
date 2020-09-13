@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Howl, Howler } from 'howler';
 import path from 'path';
+import { StylesProvider } from '@material-ui/core/styles';
+
 import MusicList from './components/MusicList';
 import './App.css';
+import MusicControl from './components/MusicControl';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -57,20 +60,23 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Welcome to Mew!</h1>
-        <div className="music-control">
-          <button type="button" onClick={playPauseMusic}>{playing ? 'Pause' : 'Play'}</button>
-          <button type="button" onClick={stopMusic}>Stop</button>
-        </div>
-        <div>
-          <button type="button" onClick={selectFolder}>Select Folder</button>
-          <p>{folderPath}</p>
-        </div>
-        <MusicList selectMusic={selectMusic} />
-      </header>
-    </div>
+    <StylesProvider injectFirst>
+      <div className="App">
+        <header className="App-header">
+          <h1>Welcome to Mew!</h1>
+          <div className="music-control">
+            <MusicControl player={howl} />
+            <button type="button" onClick={playPauseMusic}>{playing ? 'Pause' : 'Play'}</button>
+            <button type="button" onClick={stopMusic}>Stop</button>
+          </div>
+          <div>
+            <button type="button" onClick={selectFolder}>Select Folder</button>
+            <p>{folderPath}</p>
+          </div>
+          <MusicList selectMusic={selectMusic} />
+        </header>
+      </div>
+    </StylesProvider>
   );
 }
 
