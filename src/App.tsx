@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Howl, Howler } from 'howler';
 import { StylesProvider } from '@material-ui/core/styles';
 
 import MusicList from './components/MusicList';
 import './App.css';
 import MusicControl from './components/MusicControl';
+import { Button } from '@material-ui/core';
 
+const app = window.require('electron');
 const { ipcRenderer } = window.require('electron');
 const url = window.require('url');
 
@@ -52,7 +55,7 @@ function App() {
 
   const selectFolder = async () => {
     const result = await ipcRenderer.invoke('select-folder');
-    console.log(result);
+    console.log(app.getPath('mew'));
     if (result) {
       setFolderPath(result);
     }
@@ -61,19 +64,20 @@ function App() {
   return (
     <StylesProvider injectFirst>
       <div className="App">
+        <Link to="/setting"><Button>Settings</Button></Link>
         <header className="App-header">
           <h1>Welcome to Mew!</h1>
-          <div className="music-control">
-            <MusicControl player={howl} />
-            {/* <button type="button" onClick={playPauseMusic}>{playing ? 'Pause' : 'Play'}</button>
-            <button type="button" onClick={stopMusic}>Stop</button> */}
-          </div>
-          <div>
-            <button type="button" onClick={selectFolder}>Select Folder</button>
-            <p>{folderPath}</p>
-          </div>
-          <MusicList selectMusic={selectMusic} />
         </header>
+        <div className="music-control">
+          <MusicControl player={howl} />
+          {/* <button type="button" onClick={playPauseMusic}>{playing ? 'Pause' : 'Play'}</button>
+          <button type="button" onClick={stopMusic}>Stop</button> */}
+        </div>
+        <div>
+          <button type="button" onClick={selectFolder}>Select Folder</button>
+          <p>{app.getPath('mew')}</p>
+        </div>
+        <MusicList selectMusic={selectMusic} />
       </div>
     </StylesProvider>
   );
